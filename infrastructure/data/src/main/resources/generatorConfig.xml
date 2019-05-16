@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+
+    <context id="main_context" targetRuntime="MyBatis3">
+
+        <!-- 抑制警告 -->
+        <property name="suppressTypeWarnings" value="true"/>
+
+        <property name="autoDelimitKeywords" value="false"/>
+        <!-- 生成的Java文件的编码 -->
+        <property name="javaFileEncoding" value="UTF-8"/>
+        <!-- 格式化java代码 -->
+        <property name="javaFormatter" value="org.mybatis.generator.api.dom.DefaultJavaFormatter"/>
+        <!-- 格式化XML代码 -->
+        <property name="xmlFormatter" value="org.mybatis.generator.api.dom.DefaultXmlFormatter"/>
+
+
+        <!-- 自动生成toString方法 -->
+        <plugin type="org.mybatis.generator.plugins.ToStringPlugin"/>
+        <!-- 自动生成equals方法和hashcode方法 -->
+        <plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin"/>
+
+        <!-- 注释，加入下面的配置控制 true 不生成注解 false 是生成注解-->
+        <commentGenerator>
+            <property name="suppressAllComments" value="false"/><!--注释说明-->
+            <property name="suppressDate" value="false"/><!--日期-->
+        </commentGenerator>
+
+        <!--数据连接-->
+        <!--<jdbcConnection driverClass="com.mysql.jdbc.Driver"-->
+                        <!--connectionURL="jdbc:mysql://localhost:12121/pay_service?useUnicode=true&amp;characterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull&amp;tinyInt1isBit=false"-->
+                        <!--userId="chuangjiangx"-->
+                        <!--password="chuangjiangx@2we3$RE%">-->
+            <!--&lt;!&ndash; 这里面可以设置property属性，每一个property属性都设置到配置的Driver上 &ndash;&gt;-->
+        <!--</jdbcConnection>-->
+        <jdbcConnection
+                driverClass="com.mysql.jdbc.Driver"
+                connectionURL="jdbc:mysql://localhost:3306/oneproject.main?useSSL=false"
+                userId="root"
+                password="cj999999">
+        </jdbcConnection>
+
+
+        <!-- java类型处理器
+                   用于处理DB中的类型到Java中的类型，默认使用JavaTypeResolverDefaultImpl；
+                   注意一点，默认会先尝试使用Integer，Long，Short等来对应DECIMAL和 NUMERIC数据类型；
+               -->
+        <javaTypeResolver type="org.mybatis.generator.internal.types.JavaTypeResolverDefaultImpl">
+            <!--
+                true：使用BigDecimal对应DECIMAL和 NUMERIC数据类型
+                false：默认,
+                    scale>0;length>18：使用BigDecimal;
+                    scale=0;length[10,18]：使用Long；
+                    scale=0;length[5,9]：使用Integer；
+                    scale=0;length<5：使用Short；
+             -->
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+
+        <!-- 数据表对应的model层  -->
+        <javaModelGenerator targetPackage="com.shuma.oneproject.infrastructure.data.main.repository.unitofwork.model"
+                            targetProject="src/main/java">
+            <property name="enableSubPackages" value="true"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <!-- sql mapper 映射配置文件 -->
+        <sqlMapGenerator targetPackage="com.shuma.oneproject.infrastructure.data.main.repository.unitofwork.mapper"
+                         targetProject="src/main/resources">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+
+        <!-- mybatis3中的mapper接口 -->
+        <javaClientGenerator targetPackage="com.shuma.oneproject.infrastructure.data.main.repository.unitofwork.mapper"
+                             type="XMLMAPPER" targetProject="src/main/java">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+
+        <table tableName="tb_account" domainObjectName="AccountDO" mapperName="BaseAccountMapper" alias="a" enableDeleteByExample="true" >
+            <generatedKey column="id" sqlStatement="MySql" identity="false"/></table>
+        <table tableName="tb_user" domainObjectName="UserDO" mapperName="BaseUserMapper" alias="u" enableDeleteByExample="true" >
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/></table>
+
+    </context>
+</generatorConfiguration>
