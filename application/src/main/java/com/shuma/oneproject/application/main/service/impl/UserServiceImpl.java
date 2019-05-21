@@ -4,7 +4,6 @@ import com.shuma.oneproject.application.AbstractService;
 import com.shuma.oneproject.application.main.dto.UserDTO;
 import com.shuma.oneproject.application.main.exception.LoginException;
 import com.shuma.oneproject.application.main.service.UserService;
-import com.shuma.oneproject.domain.Repository;
 import com.shuma.oneproject.domain.main.authorization.aggregate.account.Account;
 import com.shuma.oneproject.domain.main.authorization.aggregate.account.AccountFactory;
 import com.shuma.oneproject.domain.main.authorization.aggregate.user.User;
@@ -27,18 +26,13 @@ public class UserServiceImpl extends AbstractService<User, UserDTO> implements U
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private Repository<Account> accountRepository;
-
     @Transactional
     @Override
     public void register(UserDTO user, String password) {
         User userEntity = createEntity();
         BeanUtils.copyProperties(user, userEntity);
-        userRepository.insert(userEntity);
-
         userEntity.setAccount(AccountFactory.create(password));
-        accountRepository.insert(userEntity.getAccount());
+        userRepository.insert(userEntity);
     }
 
     @Override
@@ -47,8 +41,7 @@ public class UserServiceImpl extends AbstractService<User, UserDTO> implements U
         if (null == user) {
             throw new LoginException("用户名不存在");
         }
-        Account account = accountRepository.get(user.getId());
-        user.setAccount(account);
+        Account account = user.getAccount();
         if (!account.validPassword(password)) {
             throw new LoginException("密码错误");
         }
