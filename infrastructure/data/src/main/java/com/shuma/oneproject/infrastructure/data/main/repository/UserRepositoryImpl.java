@@ -4,14 +4,12 @@ import com.shuma.oneproject.domain.UnitOfWork;
 import com.shuma.oneproject.domain.main.authorization.aggregate.account.Account;
 import com.shuma.oneproject.domain.main.authorization.aggregate.user.User;
 import com.shuma.oneproject.domain.main.authorization.aggregate.user.UserRepository;
-import com.shuma.oneproject.infrastructure.data.AbstractRepository;
 import com.shuma.oneproject.infrastructure.data.main.repository.unitofwork.AccountUnitOfWork;
 import com.shuma.oneproject.infrastructure.data.main.repository.unitofwork.UserUnitOfWork;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import org.springframework.util.CollectionUtils;
 
 import java.util.Collection;
 import java.util.Optional;
